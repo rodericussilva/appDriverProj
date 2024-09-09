@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Entregas</title>
+    <link rel="shortcut icon" href="../assets/images/logo-removebg-preview.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/styleGlobal.css">
+    <link rel="stylesheet" href="../css/styleNavbar.css">
+    <link rel="stylesheet" href="../css/styleInputOrder.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header id="navbar-container"></header>
+
+    <main>
+        <div class="welcome-message">
+            <h1>Bem-vindo, <span id="welcome-user-name"></span>!</h1>
+        </div>
+        <div class="planning-container">
+            <h2>Informe o número das notas fiscais das entregas de hoje</h2>
+
+            <div class="btn-container nf-input-container">
+                <input type="number" id="nf-input" placeholder="Digite o número da nota fiscal">
+                <button id="add-nf-btn" class="btn">Adicionar</button>
+            </div>
+        </div>
+
+        <div class="planning-container">
+            <div id="delivery-list-container">
+                <!-- As entregas serão carregadas aqui dinamicamente -->
+            </div>
+        </div>
+    </main>
+    
+    <div class="btn-container-route hidden">
+        <a href="https://www.google.com/maps" id="abrirGoogleMaps" class="btn-route" target="_blank">Abrir Google Maps</a>
+        <a href="https://waze.com" id="abrirWaze" class="btn-route" target="_blank">Abrir Waze</a>
+    </div>
+
+    <span>
+        <div class="desktop-warning">Este aplicativo está disponível apenas em dispositivos móveis.</div>
+    </span>
+
+    <footer>
+        <p>© 2024 TS Distribuidora | Todos os direitos reservados</p>
+    </footer>
+
+
+    
+
+    <script src="../js/inputOrder.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/user.js"></script>
+</body>
+
+</html>

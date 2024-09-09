@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TS Distribuidora</title>
+    <link rel="stylesheet" href="../css/styleGlobal.css">
+    <link rel="stylesheet" href="../css/styleLogin.css">
+    <link rel="shortcut icon" href="../assets/images/logo-removebg-preview.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <form id="login-form" class="login" novalidate>
+                    <div class="login__field">
+                        <i class="login__icon fas fa-user"></i>
+                        <input type="text" id="user" class="login__input" placeholder="Usuário/Email" required>
+                        <span id="userError" class="error"></span>
+                    </div>
+                    <div class="login__field">
+                        <i class="login__icon fas fa-lock"></i>
+                        <input type="password" id="password" class="login__input" placeholder="Senha" required>
+                        <span id="passwordError" class="error"></span>
+                    </div>
+                    <button type="submit" class="button login__submit">
+                        <span class="button__text">Entrar</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </button>				
+                </form>
+                <div class="error-message" id="error-message"></div>
+                <div class="social-login">
+                    <img class="logo" src="../assets/images/logo-removebg-preview.png" alt="Logo TS">
+                </div>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>		
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>		
+        </div>
+    </div>
+
+    <div class="desktop-warning">
+        Este aplicativo está disponível apenas em dispositivos móveis.
+    </div>
+
+    <script src="../js/login.js"></script>
+</body>
+</html>
