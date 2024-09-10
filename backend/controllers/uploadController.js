@@ -1,51 +1,58 @@
+// controllers/uploadController.js
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const pool = require('../config/db');
+const { sendEmailWithAttachment } = require('../services/emailService');
 
-// Configuração do multer para armazenar arquivos
+// Configuração do multer para armazenar arquivos no servidor
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const userId = req.params.userId;
-    const uploadPath = path.join(__dirname, '..', 'uploads', userId);
+    const uploadPath = path.join(__dirname, '..', 'uploads', userId); // Define o caminho de upload
 
+    // Verifica se o diretório existe, caso contrário, cria
     if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
+      try {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      } catch (error) {
+        console.error(`Erro ao criar o diretório de upload: ${error.message}`);
+        return cb(new Error('Falha ao criar diretório de upload'), false);
+      }
     }
 
-    cb(null, uploadPath);
+    cb(null, uploadPath); // Define o caminho de destino para o multer
   },
   filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    // Define o nome do arquivo como o original com a extensão correta
+    cb(null, file.originalname);
   }
 });
 
+// Configuração do multer
 const upload = multer({ storage: storage });
 
 const uploadFile = async (req, res) => {
-  const deliveryId = req.params.deliveryId;
   const userId = req.params.userId;
 
   if (req.file) {
     try {
-      console.log(`Arquivo recebido da entrega do usuário ${userId}: ${req.file.filename}`);
+      console.log(`Arquivo recebido do usuário ${userId}: ${req.file.filename}`);
 
-      // Atualiza o status da entrega no banco de dados
-      const updateQuery = `
-        UPDATE romaneios
-        SET status = 'realizada'
-        WHERE id = ?
-      `;
-      await pool.query(updateQuery, [deliveryId]);
+      // Passa o caminho completo do arquivo
+      const filePath = req.file.path;
 
-      // Insere o registro na tabela deliveries_history
-      const insertQuery = `
-        INSERT INTO deliveries_history (delivery_id, user_id, photo_path, planned_at)
-        VALUES (?, ?, ?, NOW())
-      `;
-      await pool.query(insertQuery, [deliveryId, userId, req.file.filename]);
+      // Verifica se o caminho do arquivo é válido
+      if (!filePath || typeof filePath !== 'string') {
+        throw new Error('Caminho do arquivo não é válido');
+      }
 
-      res.json({ message: 'Foto enviada com sucesso!', file: req.file.filename });
+      // Envia o e-mail com o arquivo anexado exatamente como foi salvo
+      await sendEmailWithAttachment({
+        path: filePath, // Caminho completo do arquivo
+        originalname: req.file.originalname
+      });
+
+      res.json({ message: 'Foto enviada e armazenada com sucesso!', file: req.file.filename });
     } catch (error) {
       console.error('Erro ao processar o arquivo:', error);
       res.status(500).json({ message: 'Erro ao processar o arquivo' });
