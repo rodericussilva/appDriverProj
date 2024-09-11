@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const file = fileInput.files[0];
             const deliveryId = event.target.closest('.delivery-item').getAttribute('data-id');
             const userId = localStorage.getItem('userId');
+            const userName = localStorage.getItem('userName');
 
             if (!file) {
                 alert('Nenhum arquivo selecionado');
@@ -177,6 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const formData = new FormData();
             formData.append('photo', file);
+            formData.append('userName', userName);
 
             try {
                 const uploadResponse = await fetch(`http://192.168.25.11:3020/api/new-deliveries/upload/${deliveryId}/${userId}`, {

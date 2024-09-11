@@ -3,16 +3,16 @@ const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
 
-// Configuração do transportador de e-mail para Outlook
+// Configuração do transportador de e-mail
 const transporter = nodemailer.createTransport({
-    service: 'outlook', // Verifique se está correto; pode ser necessário ajustar para 'hotmail'
+    service: 'outlook',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     }
 });
 
-const sendEmailWithAttachment = async ({ path: filePath, originalname }) => {
+const sendEmailWithAttachment = async ({ path: filePath, originalname, userName }) => {
   if (!filePath || !originalname) {
     throw new Error('O caminho do arquivo e o nome original são obrigatórios');
   }
@@ -24,13 +24,13 @@ const sendEmailWithAttachment = async ({ path: filePath, originalname }) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-        to: 'analise@tsdistribuidora.com.br', // Altere conforme necessário
-        subject: 'Envio de arquivo', // Altere conforme necessário
-        text: 'Segue o arquivo enviado pelo usuário.', // Corpo do e-mail,
+        to: 'ti@tsdistribuidora.com.br',
+        subject: 'Notificação de entrega',
+        text: `Olá \n \nO motorista ${userName} acabou de efetuar uma entega. \n \nSegue arquivo em anexo para verificação. \n \nAtt., \n \n--- \n \n \nEste email é enviado de forma automática, favor não responder!`,
     attachments: [
       {
         filename: originalname,
-        path: filePath // Caminho completo do arquivo
+        path: filePath
       }
     ]
   };

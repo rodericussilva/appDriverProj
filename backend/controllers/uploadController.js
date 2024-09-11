@@ -33,6 +33,7 @@ const upload = multer({ storage: storage });
 
 const uploadFile = async (req, res) => {
   const userId = req.params.userId;
+  const { userName } = req.body;
 
   if (req.file) {
     try {
@@ -49,7 +50,7 @@ const uploadFile = async (req, res) => {
       // Envia o e-mail com o arquivo anexado exatamente como foi salvo
       await sendEmailWithAttachment({
         path: filePath, // Caminho completo do arquivo
-        originalname: req.file.originalname
+        originalname: req.file.originalname, userName
       });
 
       res.json({ message: 'Foto enviada e armazenada com sucesso!', file: req.file.filename });
