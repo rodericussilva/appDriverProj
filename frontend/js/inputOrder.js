@@ -100,6 +100,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <input type="file" class="file-input" accept="image/*" style="display: none;">
             <button class="upload-btn" style="display: none;">Enviar Foto</button>
+            <div id="loading-spinner" class="loading-spinner" style="display: none;">
+                Carregando...
+            </div>
         `;
     
         const checkbox = deliveryItem.querySelector('.confirmation-checkbox');
@@ -170,16 +173,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             const deliveryId = event.target.closest('.delivery-item').getAttribute('data-id');
             const userId = localStorage.getItem('userId');
             const userName = localStorage.getItem('userName');
-
+    
             if (!file) {
                 alert('Nenhum arquivo selecionado');
                 return;
             }
-
+    
+            // Mostra o spinner de carregamento
+            const loadingSpinner = document.getElementById('loading-spinner');
+            loadingSpinner.style.display = 'block';
+    
+            // Desabilita o botão para evitar múltiplos cliques
+            event.target.disabled = true;
+    
             const formData = new FormData();
             formData.append('photo', file);
             formData.append('userName', userName);
-
+    
             try {
                 const uploadResponse = await fetch(`http://192.168.25.11:3020/api/new-deliveries/upload/${deliveryId}/${userId}`, {
                     method: 'POST',
@@ -188,11 +198,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-
+    
                 const result = await uploadResponse.json();
                 if (uploadResponse.ok) {
                     alert('Foto enviada com sucesso! Entrega finalizada!');
-
+    
                     await fetch(`http://192.168.25.11:3020/api/new-deliveries/${deliveryId}/status`, {
                         method: 'PUT',
                         headers: {
@@ -201,13 +211,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                         },
                         body: JSON.stringify({ status: 'realizada' })
                     });
-
+    
                     event.target.closest('.delivery-item').remove();
                 } else {
                     alert(`Erro ao enviar foto: ${result.message}`);
                 }
             } catch (error) {
                 alert(`Erro ao enviar foto: ${error.message}`);
+            } finally {
+                // Esconde o spinner de carregamento e habilita o botão novamente
+                loadingSpinner.style.display = 'none';
+                event.target.disabled = false;
             }
         }
     });

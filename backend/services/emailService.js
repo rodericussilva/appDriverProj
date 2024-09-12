@@ -24,7 +24,7 @@ const sendEmailWithAttachment = async ({ path: filePath, originalname, userName 
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-        to: 'ti@tsdistribuidora.com.br',
+        to: 'analise@tsdistribuidora.com.br',
         bcc: 'analise@tsdistribuidora.com.br',
         subject: 'Notificação de entrega',
         text: `Olá, \n \nO motorista ${userName} acabou de efetuar uma entega. \n \nSegue arquivo em anexo para verificação. \n \nAtt., \n \n------ \n \n \nEste email é enviado de forma automática, favor não responder!`,
