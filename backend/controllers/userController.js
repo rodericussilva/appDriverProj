@@ -1,6 +1,5 @@
 const pool = require('../config/db');
 
-// Função de login
 exports.login = async (req, res) => {
   const { username, password } = req.body;
 
@@ -14,7 +13,6 @@ exports.login = async (req, res) => {
     const [results] = await pool.query(query, [username, password]);
 
     if (results.length > 0) {
-      // Supondo que `userId`, `userName`, e `userRole` são retornados
       const user = results[0];
       res.json({ 
         success: true, 
@@ -31,7 +29,6 @@ exports.login = async (req, res) => {
   }
 };
 
-// Função para obter um usuário por ID
 exports.getUserById = async (req, res) => {
   const userId = req.params.id;
 

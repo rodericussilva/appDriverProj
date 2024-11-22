@@ -16,16 +16,9 @@ document.getElementById('login-form').addEventListener('submit', async function 
         if (response.ok) {
             const data = await response.json();
             if (data.success) {
-                // Salvar informações do usuário no localStorage
-                localStorage.setItem('userId', data.userId); // Verifique se userId está sendo retornado
-                localStorage.setItem('userName', data.userName); // Verifique se userName está sendo retornado
-                localStorage.setItem('userRole', data.userRole); // Verifique se userRole está sendo retornado
-
-                // Log para verificação
-                //console.log('userId:', data.userId);
-                //console.log('userName:', data.userName);
-                //console.log('userRole:', data.userRole);
-
+                localStorage.setItem('userId', data.userId);
+                localStorage.setItem('userName', data.userName);
+                localStorage.setItem('userRole', data.userRole);
                 window.location.href = 'inputOrder.html';
             } else {
                 document.getElementById('error-message').innerText = data.message;

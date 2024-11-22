@@ -51,13 +51,11 @@ exports.uploadPhoto = async (req, res) => {
   const { userId } = req.body;
 
   try {
-    // Verifica se a pasta do usuário existe, se não, cria
     const userDir = path.join(__dirname, '../uploads', String(userId));
     if (!fs.existsSync(userDir)) {
       fs.mkdirSync(userDir, { recursive: true });
     }
 
-    // Salva a foto na pasta do usuário
     if (req.file) {
       res.status(200).json({ message: 'Foto enviada com sucesso.' });
     } else {

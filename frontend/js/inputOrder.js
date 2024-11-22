@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const addNfBtn = document.getElementById('add-nf-btn');
     const deliveryListContainer = document.getElementById('delivery-list-container');
 
-    // Verifica se já há notas fiscais e mostra os botões de rota se houver
     async function checkAndShowRouteButtons() {
         try {
             const response = await fetch(`http://192.168.25.11:3020/api/new-deliveries/${userId}`, {
@@ -47,7 +46,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Adiciona NF ao pressionar Enter
     nfInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             addNfBtn.click();
@@ -75,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             nfInput.value = '';
             loadDeliveries();
-            checkAndShowRouteButtons(); // Verifica e mostra os botões de rota
+            checkAndShowRouteButtons();
         } catch (error) {
             console.error('Erro ao adicionar nota fiscal:', error);
         }
@@ -111,22 +109,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const editBtn = deliveryItem.querySelector('.edit-nf-btn');
         const nfNumberSpan = deliveryItem.querySelector('.nf-number');
     
-        // Exibe o input de arquivo e o botão de upload quando o checkbox é marcado
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
                 fileInput.style.display = 'block';
             } else {
                 fileInput.style.display = 'none';
-                uploadBtn.style.display = 'none'; // Oculta o botão de enviar foto se o checkbox for desmarcado
+                uploadBtn.style.display = 'none';
             }
         });
     
-        // Exibe o botão de enviar foto apenas quando há um arquivo selecionado
         fileInput.addEventListener('change', () => {
             uploadBtn.style.display = fileInput.files.length > 0 ? 'block' : 'none';
         });
     
-        // Evento para editar o número da NF
         editBtn.addEventListener('click', () => {
             const currentNF = nfNumberSpan.textContent.replace('NF: ', '');
             const newNF = prompt('Edite o número da nota fiscal:', currentNF);
@@ -135,14 +130,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
             nfNumberSpan.textContent = `NF: ${newNF}`;
     
-            // Atualiza o número da NF no banco de dados
             updateNFInDatabase(delivery.id, newNF.trim());
         });
     
         deliveryListContainer.appendChild(deliveryItem);
     }
 
-    // Função que atualiza o número da NF no banco de dados
     async function updateNFInDatabase(deliveryId, newNFNumber) {
                 
         try {
@@ -179,11 +172,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
     
-            // Mostra o spinner de carregamento
             const loadingSpinner = document.getElementById('loading-spinner');
             loadingSpinner.style.display = 'block';
     
-            // Desabilita o botão para evitar múltiplos cliques
             event.target.disabled = true;
     
             const formData = new FormData();
@@ -219,7 +210,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (error) {
                 alert(`Erro ao enviar foto: ${error.message}`);
             } finally {
-                // Esconde o spinner de carregamento e habilita o botão novamente
                 loadingSpinner.style.display = 'none';
                 event.target.disabled = false;
             }
@@ -244,7 +234,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
 
-            checkAndShowRouteButtons(); // Verifica e mostra os botões de rota
+            checkAndShowRouteButtons();
         } catch (error) {
             console.error('Erro ao carregar entregas:', error);
         }

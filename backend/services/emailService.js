@@ -1,9 +1,7 @@
-
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
 
-// Configuração do transportador de e-mail
 const transporter = nodemailer.createTransport({
     service: 'outlook',
     auth: {
@@ -17,7 +15,6 @@ const sendEmailWithAttachment = async ({ path: filePath, originalname, userName 
     throw new Error('O caminho do arquivo e o nome original são obrigatórios');
   }
 
-  // Verifica se o arquivo existe
   if (!fs.existsSync(filePath)) {
     throw new Error('O arquivo não existe no caminho especificado');
   }

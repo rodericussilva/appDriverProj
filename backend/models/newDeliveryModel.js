@@ -1,4 +1,3 @@
-
 const db = require('../config/db');
 
 class NewDeliveryModel {
@@ -25,7 +24,6 @@ class NewDeliveryModel {
     ]);
   }
 
-  // Método para atualizar o número da NF
   static async updateDeliveryNF(id, nfNumber) {
     await db.execute('UPDATE deliveries SET nfNumber = ? WHERE id = ?', [
       nfNumber,
