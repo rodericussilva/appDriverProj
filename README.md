@@ -122,5 +122,5 @@ frontend/
 - Informações sensíveis como credenciais de banco de dados são armazenadas em variáveis de ambiente.
 
 ## 📬 Contato
-
+Se você tiver alguma dúvida ou sugestão, sinta-se à vontade para entrar em contato comigo em rodericus@alu.ufc.br
 
